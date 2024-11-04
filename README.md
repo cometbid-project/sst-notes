@@ -13,20 +13,27 @@ A template to create a monorepo SST ❍ Ion project.
    cd MY_APP
    ```
 
-3. Rename the files in the project to the name of your app. 
+3. Rename the files in the project to the name of your app.
 
    ```bash
-   npx replace-in-file '/monorepo-template/g' MY_APP **/*.* --verbose
+   npx replace-in-file '/sst-notes/g' MY_APP **/*.* --verbose
+   ```
+
+   , and set the default profile for AWS to use in deploying
+
+   ```
+   set AWS_DEFAULT_PROFILE=sst-profile
    ```
 
 4. Deploy!
 
    ```bash
    npm install
-   npx sst deploy
+   npx sst dev
+   npx sst deploy --stage production
    ```
 
-6. Optionally, enable [_git push to deploy_](https://ion.sst.dev/docs/console/#autodeploy).
+5. Optionally, enable [_git push to deploy_](https://ion.sst.dev/docs/console/#autodeploy).
 
 ## Usage
 
@@ -58,7 +65,7 @@ This template uses [npm Workspaces](https://docs.npmjs.com/cli/v8/using-npm/work
 
 3. `scripts/`
 
-    This is for any scripts that you can run on your SST app using the `sst shell` CLI and [`tsx`](https://www.npmjs.com/package/tsx). For example, you can run the example script using:
+   This is for any scripts that you can run on your SST app using the `sst shell` CLI and [`tsx`](https://www.npmjs.com/package/tsx). For example, you can run the example script using:
 
    ```bash
    npm run shell src/example.ts
