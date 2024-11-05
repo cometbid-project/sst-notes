@@ -6,7 +6,7 @@ import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 
 const dynamoDb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
-export const main = Util.handler(async (event: { body: string | null }) => {
+export const main = Util.handler(async (event) => {
   let data = {
     content: "",
     attachment: "",
@@ -21,7 +21,7 @@ export const main = Util.handler(async (event: { body: string | null }) => {
     TableName: Resource.Notes.name,
     Item: {
       // The attributes of the item to be created
-      userId: "123", // The id of the author
+      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId, // The id of the author
       noteId: uuid.v1(), // A unique uuid
       content: data.content, // Parsed from request body
       attachment: data.attachment, // Parsed from request body

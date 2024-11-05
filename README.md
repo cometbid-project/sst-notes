@@ -80,3 +80,56 @@ In the template, we have an `api.ts`, and `storage.ts`. These export the created
 ---
 
 Join the SST community over on [Discord](https://discord.gg/sst) and follow us on [Twitter](https://twitter.com/SST_dev).
+
+### Sign Up User
+
+```
+ aws cognito-idp sign-up \
+     --region <REGION> \
+     --client-id <USER_POOL_ID> \
+     --username <USER_NAME> \
+     --password <USER_PASSWORD>
+```
+
+### Confirm Identity via Email
+
+```
+aws cognito-idp admin-confirm-sign-up \
+    --region us-east-1 \
+    --user-pool-id <USER_POOL_ID> \
+    --username <USER_NAME>
+```
+
+### Make API Request with Authentication token
+
+```
+npx aws-api-gateway-cli-test \
+  --username='<USER_NAME>' \
+  --password='<USER_PASSWORD>' \
+  --user-pool-id='<USER_POOL_ID>' \
+  --app-client-id='<USER_POOL_CLIENT_ID>' \
+  --cognito-region='<REGION>' \
+  --identity-pool-id='<IDENTITY_POOL_ID>' \
+  --invoke-url='<API_URL>' \
+  --api-gateway-region='<AGW_REGION>'  \
+  --path-template='/notes' \
+  --method='POST' \
+  --body='{"content":"hello world", "attachment":"hello.jpg"}'
+```
+
+Sample Response:
+
+```
+Making API request
+{
+status: 200,
+statusText: 'OK',
+data: {
+  userId: 'us-east-1:e70e9f67-06c0-c50f-6290-a6491d6028b9',
+  noteId: 'a0a64d70-9b5a-11ef-8933-45a637918570',
+  content: 'hello world',
+  attachment: 'hello.jpg',
+  createdAt: 1730799901639
+}
+}
+```
